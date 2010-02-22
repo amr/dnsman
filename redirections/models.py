@@ -11,10 +11,10 @@ class Redirection(models.Model):
         (307, '307 Temporary Redirect')
     )
 
-    domain = models.ForeignKey(Domain, help_text='The destination domain')
+    domain = models.ForeignKey(Domain, help_text='The domain this redirection rule will redirect to')
     pattern = models.CharField(max_length=512, help_text='PCRE pattern to match the incoming request against')
     full_uri = models.BooleanField('Full URI?', default=True, help_text='Whether the redirect should include the full original URI (i.e. including the path and query string) or should forward to the root of the domain (i.e. /)')
-    code = models.IntegerField(choices=REDIRECTION_CODES, default=301, help_text='The HTTP redirection code')
+    code = models.IntegerField('HTTP Status Code', choices=REDIRECTION_CODES, default=301, help_text='The HTTP status code to use for the redirection')
     label = models.CharField(max_length=32, blank=True, help_text='Human-readable label for this redirection rule, for use in the administration interface')
 
     def __unicode__(self):
