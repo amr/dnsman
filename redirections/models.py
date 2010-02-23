@@ -14,7 +14,7 @@ class Redirection(models.Model):
     WEIGHTS = zip(range(-10, 10), range(-10, 10))
 
     domain = models.ForeignKey(Domain, help_text='The domain this redirection rule will redirect to')
-    pattern = models.CharField(max_length=512, help_text='PCRE pattern to match the incoming request against')
+    pattern = models.CharField(max_length=512, help_text='PCRE pattern to match the incoming request against. Matching is case-insensitive')
     full_uri = models.BooleanField('Full URI?', default=True, help_text='Whether the redirect should include the full original URI (i.e. including the path and query string) or should forward to the root of the domain (i.e. /)')
     code = models.IntegerField('HTTP Status Code', choices=REDIRECTION_CODES, default=301, help_text='The HTTP status code to use for the redirection')
     weight = models.SmallIntegerField(default=0, help_text='Governs the order of the evaluation of the redirection rules', choices=WEIGHTS)
