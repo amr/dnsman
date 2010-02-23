@@ -27,4 +27,25 @@ class Redirection(models.Model):
             return "%s => %s [%d]" % (self.pattern, self.domain, self.code)
 
     def match_request(self, request):
-        pass
+        uri = request.get_host() + request.get_full_path()
+
+        import re
+        return re.compile(self.pattern).match(uri)
+
+    def to_response(self, request):
+        """Return an HttpResponse of this redirection for given request"""
+        from django.http import HttpResponse
+        response = HttpResponse()
+        response.status_code = self.code
+        
+        # "http://" must be configurable
+        location = 'http://' + str(self.domain)
+        if self.full_uri:
+            location += request.get_full_path()
+        else:
+            location += '/'
+
+        response['Location'] = location
+        
+        return response
+        
