@@ -1,6 +1,6 @@
 # Django settings for dnsman project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -92,3 +92,8 @@ INSTALLED_APPS = (
     'dnsman.domains',
     'dnsman.redirections',
 )
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
