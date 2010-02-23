@@ -8,7 +8,7 @@ class RedirectionInline(admin.TabularInline):
 
 class DomainAdmin(admin.ModelAdmin):
     inlines = [RedirectionInline]
-    list_display = ('name', 'redirections_count')
+    list_display = ('name', 'redirection_rules')
     search_fields = ['name']
 
 admin.site.register(Domain, DomainAdmin)
