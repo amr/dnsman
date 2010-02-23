@@ -30,7 +30,7 @@ class Redirection(models.Model):
         uri = request.get_host() + request.get_full_path()
 
         import re
-        return re.compile(self.pattern).match(uri)
+        return re.compile(self.pattern).match(uri, re.IGNORECASE)
 
     def to_response(self, request):
         """Return an HttpResponse of this redirection for given request"""
