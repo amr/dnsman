@@ -6,5 +6,6 @@ class Domain(models.Model):
     def __unicode__(self):
         return self.name
 
-    def redirection_rules(self):
-        return self.redirection_set.count()
+    def redirections_count(self):
+        return self.redirections.count()
+    redirections_count.short_description = 'Redirections #'
