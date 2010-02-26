@@ -1,7 +1,9 @@
 from dnsman.redirections.models import Redirection
+from dnsman.redirections.forms import RedirectionForm
 from django.contrib import admin
 
 class RedirectionAdmin(admin.ModelAdmin):
+    form = RedirectionForm
     fieldsets = [
         (None, {'fields': ['from_domain', 'to_domain']}),
         ('Advanced options', {'fields': ['full_uri', 'code', 'weight'], 'classes': ['collapse']}),
