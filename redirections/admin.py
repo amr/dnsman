@@ -8,7 +8,7 @@ class RedirectionAdmin(admin.ModelAdmin):
     ]
     list_display = ('from_domain', 'to_domain', 'full_uri', 'code', 'weight')
     list_filter = ['code', 'full_uri']
-    search_fields = ['to_domain', 'from_domain']
+    search_fields = ['to_domain__name', 'from_domain__name']
     ordering = ['-weight']
 
 admin.site.register(Redirection, RedirectionAdmin)
