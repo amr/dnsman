@@ -34,7 +34,6 @@ class Redirection(models.Model):
         response = HttpResponse()
         response.status_code = self.code
         
-        # "http://" must be configurable
         location = 'http://' + str(self.to_domain)
         if self.full_uri:
             location += request.get_full_path()
