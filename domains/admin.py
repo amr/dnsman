@@ -6,7 +6,7 @@ class RedirectionInline(admin.TabularInline):
     model = Redirection
     extra = 1
     fk_name = 'to_domain'
-    fields = ['type', 'from_domain', 'pattern', 'full_uri', 'code']
+    fields = ['from_domain', 'full_uri', 'code']
     ordering = ['-weight']
 
 class DomainAdmin(admin.ModelAdmin):
