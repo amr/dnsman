@@ -1,22 +1,16 @@
 from dnsman.domains.models import Domain
-from dnsman.redirections.models import SimpleRedirection, RegexRedirection
+from dnsman.redirections.models import Redirection
 from django.contrib import admin
 
-class SimpleRedirectionInline(admin.TabularInline):
-    model = SimpleRedirection
+class RedirectionInline(admin.TabularInline):
+    model = Redirection
     extra = 1
     fk_name = 'to_domain'
-    fields = ['from_domain', 'full_uri', 'code']
-    ordering = ['-weight']
-
-class RegexRedirectionInline(admin.TabularInline):
-    model = RegexRedirection
-    extra = 1
-    fk_name = 'to_domain'
-    fields = ['pattern', 'full_uri', 'code']
+    fields = ['type', 'from_domain', 'pattern', 'full_uri', 'code']
     ordering = ['-weight']
 
 class DomainAdmin(admin.ModelAdmin):
+    inlines = [RedirectionInline]
     list_display = ('name', 'redirections_count')
     search_fields = ['name']
 
