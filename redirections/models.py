@@ -23,9 +23,10 @@ class Redirection(models.Model):
 
     def match_request(self, request):
         uri = request.get_host() + request.get_full_path()
-
+        
         import re
-        return re.compile(self.pattern, re.IGNORECASE).match(uri)
+        pattern = "^(www\.)?%s" % re.escape(self.from_domain)
+        return re.compile(pattern, re.IGNORECASE).match(uri)
 
     def to_response(self, request):
         """Return an HttpResponse of this redirection for given request"""
