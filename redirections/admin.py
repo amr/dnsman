@@ -3,7 +3,7 @@ from django.contrib import admin
 
 class RedirectionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['to_domain', 'from_domain']}),
+        (None, {'fields': ['from_domain', 'to_domain']}),
         ('Advanced options', {'fields': ['full_uri', 'code', 'weight'], 'classes': ['collapse']}),
     ]
     list_display = ('from_domain', 'to_domain', 'full_uri', 'code', 'weight')
