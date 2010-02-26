@@ -1,7 +1,7 @@
 from django.db import models
 
 class Domain(models.Model):
-    name = models.CharField('Domain name', max_length=253)
+    name = models.CharField('Name', unique=True, max_length=253, help_text='The domain name, e.g. "example.com"')
 
     def __unicode__(self):
         return self.name
