@@ -95,7 +95,7 @@ class DomainAdmin(admin.ModelAdmin):
         context = {
             'title': _('Add multiple %s') % force_unicode(opts.verbose_name_plural),
             'add': True,
-            'change': False,
+            'change': True,
             'adminform': adminForm,
             'is_popup': False,
             'has_add_permission': True,
