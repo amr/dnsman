@@ -20,6 +20,7 @@ class Redirection(models.Model):
     full_uri = models.BooleanField('Full URI?', default=True, help_text='Whether the redirect should include the full original URI (i.e. including the path and query string) or should forward to the root of the domain (i.e. /)')
     code = models.IntegerField('HTTP Status Code', choices=REDIRECTION_CODES, default=301, help_text='The HTTP status code to use for the redirection')
     weight = models.SmallIntegerField(default=0, help_text='Governs the order of the evaluation of the redirection rules', choices=WEIGHTS)
+    enabled = models.BooleanField('Enabled?', db_index=True, default=True, help_text='Disable this redirect temporarily by checking off this option')
 
     def match_request(self, request):
         uri = request.get_host() + request.get_full_path()
