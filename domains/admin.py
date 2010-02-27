@@ -74,7 +74,7 @@ class DomainAdmin(admin.ModelAdmin):
                 else:
                     transaction.commit()
                     # Remove the successfully added domains
-                    data = dict(request.POST)
+                    data = request.POST.copy()
                     data['domains'] = "\n".join(remaining_domains)
                     form.data = data
                     self.message_user(request, ungettext("%d domain was added successfully.",
