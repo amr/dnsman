@@ -8,7 +8,7 @@
     {% if has_absolute_url %}<li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
     {% endif %}{% endif %}
     <li>
-        <a href="bulk-add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
+        <a href="../bulk-add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
           {% blocktrans with opts.verbose_name_plural as name %}Add multiple {{ name }}{% endblocktrans %}
         </a>
     </li>
