@@ -25,7 +25,7 @@ class Redirection(models.Model):
         uri = request.get_host() + request.get_full_path()
         
         import re
-        pattern = "^(www\.)?%s" % re.escape(self.from_domain)
+        pattern = "^(www\.)?%s" % re.escape(str(self.from_domain))
         return re.compile(pattern, re.IGNORECASE).match(uri)
 
     def to_response(self, request):
