@@ -1,0 +1,14 @@
+# Local Django settings for dnsman project.
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+ADMINS = (
+    # ('Your Name', 'your.email@example.com'),
+)
+
+MANAGERS = ADMINS
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = ')OB=R*_NH|}V-'+HQ.O;_TA>#(EP+/V,;FW+M`=X#=?=;S&/G;JW(=}\;UJXCSS-'
+
