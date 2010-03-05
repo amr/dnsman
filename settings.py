@@ -66,7 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',    
 )
 
 ROOT_URLCONF = 'dnsman.urls'
@@ -93,7 +93,17 @@ INSTALLED_APPS = (
     'dnsman.redirections',
 )
 
+# Enable django-varnish, see VARNISH.txt for details
+VARNISH_INTEGRATION = False
+
 try:
     from local_settings import *
 except ImportError:
     pass
+
+if VARNISH_INTEGRATION:
+    INSTALLED_APPS += ('varnishapp', 'django.contrib.humanize')
+    MIDDLEWARE_CLASSES += ('dnsman.varnish_integration.middleware.VarnishIntegrationMiddleware',)
+    # Each of those models must define varnish_purge_hash_pattern()
+    VARNISH_WATCHED_MODELS = ('domains.Domain', 'redirections.Redirection')
+    VARNISH_MANAGEMENT_ADDRS = ('127.0.0.1:6082',)

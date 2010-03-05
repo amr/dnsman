@@ -12,3 +12,18 @@ MANAGERS = ADMINS
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = ')OB=R*_NH|}V-+HQ.O;_TA>#(EP+/V,;FW+M`=X#=?=;S&/G;JW(=}\;UJXCSS-'
 
+# Enable django-varnish, see VARNISH.txt for details
+#
+# Note that when you switch off the integration, existing cached items will not
+# be automatically purged from Varnish. You will need to explicitly purge them.
+# You can do so easily varnishadm, example:
+#
+#   $: varnishadm -T 127.0.0.1:6082 purge.url ".*"
+#
+# TODO: The above step may be eliminated by automatically doing that on the
+# application startup.
+VARNISH_INTEGRATION = False
+
+# By default DNSMan looks for varnish mgmt port at 127.0.0.1:6082, if yours
+# is different, uncomment and set the following line.
+# VARNISH_MANAGEMENT_ADDRS = ('server:port')

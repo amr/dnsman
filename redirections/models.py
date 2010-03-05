@@ -51,6 +51,11 @@ class Redirection(models.Model):
 
         return response
 
+    def varnish_purge_hash_patterns(self):
+        # This requires that cache items hashing is left to the default, which
+        # is "url+host"
+        return (r".*%s" % self.from_domain,)
+
     def __unicode__(self):
             return "%s => %s [%d]" % (self.from_domain, self.to_domain, self.code)
 
@@ -62,8 +67,7 @@ class Redirection(models.Model):
 # Update last-modified of all related redirections when a domain changes.
 def domain_saved(sender, created=None, instance=None, **kwargs):
     # We are only interested in updates
-    if not created and instance is not none:
+    if not created and instance is not None:
         import datetime
-        redirections = Redirection.objects.filter(models.Q(from_domain=instance) | models.Q(to_domain=instance))
-        redirections.update(last_modified=datetime.datetime.now())
+        instance.all_redirections.update(last_modified=datetime.datetime.now())
 models.signals.post_save.connect(domain_saved, sender=Domain)

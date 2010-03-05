@@ -24,4 +24,9 @@ def redirect(request):
     # not recognize cache-control.
     response['Expires'] = http_date(time.time() - 86400)
 
+    # If Varnish integration is active, we permit Varnish to cache our response
+    # despite the expires and cache-control headers.
+    if settings.VARNISH_INTEGRATION:
+        response['X-Varnish-Can-Cache'] = 1
+
     return response
