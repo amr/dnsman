@@ -1,12 +1,27 @@
-from django.http import HttpResponse
+import time
+from django.conf import settings
+from django.utils.http import http_date
+from django.http import HttpResponse, HttpResponseServerError
+from django.views.decorators.cache import cache_control
+
 from dnsman.redirections.models import Redirection
 
+@cache_control(no_cache=True, max_age=0)
 def redirect(request):
     """Perform actual redirections based on given request and configured
     redirections"""
 
+    response = None
     for redirection in Redirection.objects.order_by('-weight'):
         if redirection.match_request(request):
-            return redirection.to_response(request)
+            response = redirection.to_response(request)
+            break
 
-    return HttpResponse("No redirection matched!")
+    if response is None:
+        response = HttpResponseServerError('No redirection matched!')
+
+    # Expires in the past to force no caching with HTTP/1.0 caches which do
+    # not recognize cache-control.
+    response['Expires'] = http_date(time.time() - 86400)
+
+    return response

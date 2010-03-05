@@ -21,6 +21,7 @@ class Redirection(models.Model):
     code = models.IntegerField('HTTP Status Code', choices=REDIRECTION_CODES, default=301, help_text='The HTTP status code to use for the redirection')
     weight = models.SmallIntegerField(default=0, help_text='Governs the order of the evaluation of the redirection rules', choices=WEIGHTS)
     enabled = models.BooleanField('Enabled?', db_index=True, default=True, help_text='Disable this redirect temporarily by checking off this option')
+    last_modified = models.DateTimeField(auto_now=True)
 
     def match_request(self, request):
         uri = request.get_host() + request.get_full_path()
@@ -42,8 +43,27 @@ class Redirection(models.Model):
             location += '/'
 
         response['Location'] = location
-        
+
+        # Last-modified
+        import time
+        from django.utils.http import http_date
+        response['Last-Modified'] = http_date(time.mktime(self.last_modified.timetuple()))
+
         return response
 
     def __unicode__(self):
             return "%s => %s [%d]" % (self.from_domain, self.to_domain, self.code)
+
+    def formatted_last_modified(self):
+        return self.last_modified.strftime('%Y-%m-%d %H:%M:%S')
+    formatted_last_modified.short_description = _('Last modified')
+    formatted_last_modified.admin_order_field = 'last_modified'
+
+# Update last-modified of all related redirections when a domain changes.
+def domain_saved(sender, created=None, instance=None, **kwargs):
+    # We are only interested in updates
+    if not created and instance is not none:
+        import datetime
+        redirections = Redirection.objects.filter(models.Q(from_domain=instance) | models.Q(to_domain=instance))
+        redirections.update(last_modified=datetime.datetime.now())
+models.signals.post_save.connect(domain_saved, sender=Domain)
