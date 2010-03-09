@@ -19,4 +19,4 @@ class RedirectionForm(forms.ModelForm):
 class RedirectionBulkAdd(forms.Form):
     to_domain = forms.ModelChoiceField(Domain.objects.all(), help_text='The domain to redirect to')
     from_domains = forms.CharField(widget=forms.Textarea, help_text='The domains that will redirect to the selected domain. One domain per line. Domains that do not exist already will be automatically created. Do not include www')
-    ignore_errors = forms.BooleanField(required=False, help_text='If checked, then errors will be ignored and reported at the end, and the successfully imported domains will be automatically removed from the text area')
+    ignore_errors = forms.BooleanField(required=False, help_text='If checked, then errors will be ignored and reported at the end, and the successfully created redirections will be automatically removed from the text area')
