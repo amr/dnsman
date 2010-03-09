@@ -56,7 +56,6 @@ class DomainAdmin(admin.ModelAdmin):
                 added_domains = []
                 remaining_domains = []
                 for domain in domains:
-                    print domain
                     try:
                         d = Domain(name=domain)
                         d.full_clean()

@@ -1,5 +1,4 @@
 from django import forms
-from django.core.exceptions import NON_FIELD_ERRORS
 
 class DomainBulkAdd(forms.Form):
     domains = forms.CharField(widget=forms.Textarea, help_text='One domain per line')
