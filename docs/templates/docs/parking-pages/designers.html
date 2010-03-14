@@ -1,0 +1,24 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="../../../">Home</a> &rsaquo; <a href="../../">Documentation</a> &rsaquo; <a href="../">Parking pages</a> &rsaquo; For designers</div>{% endblock %}
+{% block title %}For designers{% endblock %}
+
+{% block content %}
+
+<h1>How to create custom parking pages in DNSMan</h1>
+
+<h2 class="subhead">Brief guidelines for using your existing static parking page in DNSMan</h2>
+
+<div id="content-main">
+  <p>Let's cut into the flesh with an example.</p>
+  <p>Assume you were tasked with creating a parking page for N2V-owned sites. You should proceed as follows:</p>
+  <ul>
+    <li>Create a design in your favorite creative software package, share it with stakeholders, until you have acquired their approval</li>
+    <li>Implement the design using good standard XHTML, adding additional resources such as CSS Stylesheets and Images</li>
+  </ul>
+  <p>Once you have done that, your parking page should be displayable perfectly in your browser. In the next steps we will see how to upload it into DNSMan:</p>
+  <ul>
+    <li>Go to DNSMan administration panel, and Add a new parking page</li>
+  </ul>
+</div>
+{% endblock %}

@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     # DNSMan
     'dnsman.domains',
     'dnsman.redirections',
+    'dnsman.docs',
 )
 
 # Enable django-varnish, see VARNISH.txt for details
