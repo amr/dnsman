@@ -7,7 +7,7 @@ OVERVIEW
 INSTALLATION
 ============
 
-  * Download & Install Django 1.2 from:
+  * Download & Install Django Trunk (see WHY DJANGO TRUNK below) from:
 
         http://www.djangoproject.com/download/
 
@@ -38,5 +38,15 @@ RUNNING USING SPAWNING
 
         $: cd <dnsman-root-dir>
         $: sudo spawn --factory=spawning.django_factory.config_factory -p 80 dnsman.settings
+
+
+WHY DJANGO TRUNK
+================
+
+  DNSMan's development were originally based on Django 1.2 beta, but certain
+  bugs in the beta were blockers, and were found to be fixed in the trunk
+  version, so we require it. Once Django 1.2 stable is released, we will drop
+  the trunk requirement and just require 1.2.
+
 
 Enjoy!

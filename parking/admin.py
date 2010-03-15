@@ -7,7 +7,7 @@ class ParkingPageAdmin(admin.ModelAdmin):
     form = ParkingPageForm
     fieldsets = [
         (None, {'fields': ['name']}),
-        ('Template', {'fields': ['template', 'extends', 'resources_dir']}),
+        ('Template', {'fields': ['template', 'template_file', 'resources_dir', 'extends']}),
     ]
     list_display = ('name', 'extends', 'last_modified')
     list_filter = ['extends']
