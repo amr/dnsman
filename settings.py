@@ -39,17 +39,17 @@ USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = 'media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '470u^v!*a1!62^kpzlzsivs4eb=w(2t$+716k%-5cio161@710'
@@ -66,7 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',    
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'dnsman.urls'
@@ -91,8 +91,12 @@ INSTALLED_APPS = (
     # DNSMan
     'dnsman.domains',
     'dnsman.redirections',
+    'dnsman.parking',
     'dnsman.docs',
 )
+
+# Parking pages directory, MUST be relative to MEDIA_ROOT
+PARKING_PAGES_DIR = MEDIA_ROOT + '/parking-pages'
 
 # Enable django-varnish, see VARNISH.txt for details
 VARNISH_INTEGRATION = False

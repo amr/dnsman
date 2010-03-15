@@ -12,6 +12,14 @@ MANAGERS = ADMINS
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = ')OB=R*_NH|}V-+HQ.O;_TA>#(EP+/V,;FW+M`=X#=?=;S&/G;JW(=}\;UJXCSS-'
 
+# Parking pages directory, MUST be relative to MEDIA_ROOT
+#
+# It will be used for storing the HTML and media of the parking pages. It's
+* expected to be writable by the user under which dnsman is running.
+#
+# By default it's MEDIA_ROOT/parking/pages
+#PARKING_PAGES_DIR = MEDIA_ROOT + '/parking/pages'
+
 # Enable django-varnish, see VARNISH.txt for details
 #
 # Note that when you switch off the integration, existing cached items will not
