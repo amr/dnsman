@@ -1,0 +1,39 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="../../../">Home</a> &rsaquo; <a href="../../">Documentation</a> &rsaquo; <a href="../">Parking pages</a> &rsaquo; For designers</div>{% endblock %}
+{% block title %}For designers{% endblock %}
+
+{% block content %}
+
+<h1>How to create custom parking pages</h1>
+
+<div id="content-main">
+  <p>In order to add a parking page, you must first have it ready as static XHTML, CSS and Images, that are perfectly displayable offline in your browser. The following help material will show you how to import it into DNSMan.</p>
+  <p>Let's assume that you were tasked for creating a parking page for your company, called <em>N2Ventures</em>, and that you have already designed and implemented it using standard XHTML, CSS and Images. Now to add it to DNSMan, you should do the following:</p>
+
+  <h3>Add the parking page</h3>
+  <p>Go to the administration panel, and “Add” a new parking page. Let's call this parking page “<em>N2V Standard</em>”, by writing that in the <strong>Name</strong> field</p>
+
+  <h3>Supply your XHTML</h3>
+  <p>You will upload your XHTML file, but before doing that, there are few things you must do first.</p>
+  <h4>Add a base tag</h4>
+  <p>You must add a <code>&lt;base&gt</code> tag like the following:</p>
+  <pre>&lt;base href="{% templatetag openvariable %} base_path {% templatetag closevariable %}" /&gt;</pre>
+  <p>That base tag should be added to the <code>&lt;head&gt;</code> of your document.</p>
+  <h4>Ensure all external resources are using relative paths</h4>
+  <p>The next thing is to make sure that <em>all</em> the resources used in the XHTML are specified relatively from the XHTML itself, for example:</p>
+  <p>Good:</p>
+  <pre>&lt;link rel="stylesheet" src="stylesheets/main.css" /&gt;</pre>
+  <p>Bad:</p>
+  <pre>&lt;link rel="stylesheet" src="C:/N2V/parking_pages/n2v_standard/stylesheets/main.css" /&gt;</pre>
+  <p>After you have done that, you can now upload your XHTML file, by supplying it in the <strong>Template</strong> field.</p>
+  <h4>But there is more!</h4>
+  <p>With the above, we have just ensured that all the external resources are going to be loaded correctly. But DNSMan offers many filters, tags and variables which you can use in the template, in order to make it a little bit more advanced, for example, perhaps you want to include the domain name in the title. For this and more, read the <a href="template-reference/">parking pages template reference</a>.</p>
+
+  <h3>Supply your external resources</h3>
+  <p>You should create a <code>.zip</code> file with all the external resources, relative from your XHTML file, and supply it in the <strong>External resources</strong> field.</p>
+
+  <h3>Finally...</h3>
+  <p>You are almost there, hit <em>Save</em>, and you are done.</p>
+</div>
+{% endblock %}
