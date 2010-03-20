@@ -150,7 +150,7 @@ margin: 10px 0 10px 0;
 	cursor:default ! important;
 }
 .folder {
-	background-image:url(../ext/resources/images/default/tree/folder.gif) ! important;
+	background-image:url(../../ext/resources/images/default/tree/folder.gif) ! important;
 /*	background-repeat:no-repeat; */
 }
 /* eof */
