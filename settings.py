@@ -112,3 +112,15 @@ if VARNISH_INTEGRATION:
     # Each of those models must define varnish_purge_hash_pattern()
     VARNISH_WATCHED_MODELS = ('domains.Domain', 'redirections.Redirection')
     VARNISH_MANAGEMENT_ADDRS = ('127.0.0.1:6082',)
+
+# django-devserver
+if DEBUG:
+    try:
+        import devserver
+        INSTALLED_APPS += ('devserver',)
+        
+        DEVSERVER_MODULES = (
+            'devserver.modules.ajax.AjaxDumpModule',
+        )
+    except ImportError:
+        pass
