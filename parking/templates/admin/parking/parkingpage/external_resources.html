@@ -1,0 +1,67 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_modify adminmedia %}
+
+{% block extrahead %}{{ block.super }}
+{{ media }}
+
+<script type="text/javascript" src="{% admin_media_prefix %}ext/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}ext/ext-all-debug.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.form.BrowseButton.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.FileUploader.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.UploadPanel.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.FileTreeMenu.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.FileTreePanel.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.form.IconCombo.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.form.ThemeCombo.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.form.LangSelectCombo.js"></script>
+
+<script type="text/javascript">
+Ext.onReady(function () {
+  var treepanel = new Ext.ux.FileTreePanel({
+  url:'{% url admin:parkingpages_filetree object.id %}',
+  height:400,
+  autoWidth:true,
+  id:'ftp'
+  ,title:'{% trans "External resources" %}'
+  ,renderTo:'file-tree-panel'
+  ,rootPath:'n2v-standard'
+  ,rootText:'n2v-standard'
+  ,topMenu:false
+  ,autoScroll:true
+  ,enableProgress:false
+  //		,baseParams:{additional:'haha'}
+  //		,singleUpload:true
+  });
+});
+</script>
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}ext/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}ext/resources/css/xtheme-gray.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/webpage.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/filetree.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/filetype.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/famflag.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/Ext.ux.IconCombo.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/empty.css" />
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/icons.css">
+{% endblock %}
+
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} external-resources{% endblock %}
+
+{% block breadcrumbs %}{% if not is_popup %}
+<div class="breadcrumbs">
+     <a href="../../../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../../../">{{ app_label|capfirst|escape }}</a> &rsaquo; 
+     <a href="../../">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo; 
+     <a href="../">{{ object|truncatewords:"18" }}</a> &rsaquo; 
+     {% trans "External resources" %}
+</div>
+{% endif %}{% endblock %}
+
+{% block content %}<div id="content-main">
+<div id="file-tree-panel"></div>
+</div>
+{% endblock %}

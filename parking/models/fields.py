@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.forms.fields import ChoiceField
+from django.core.exceptions import ValidationError
 import os, re
 
 class DirectoryPathField(models.Field):
@@ -18,6 +19,8 @@ class DirectoryPathField(models.Field):
                 self.choices = []
             else:
                 self.choices = [('', '---------')]
+
+            self.choices.append(('[auto-create]', '[auto-create]'))
 
             if self.match is not None:
                 self.match_re = re.compile(self.match)
@@ -45,6 +48,30 @@ class DirectoryPathField(models.Field):
         }
         defaults.update(kwargs)
         return super(DirectoryPathField, self).formfield(**defaults)
+
+    def validate(self, value, model_instance):
+        super(DirectoryPathField, self).validate(value, model_instance)
+
+        # If [auto-create] was selected, make sure the to-be-created directory
+        # doesn't already exist.
+        if value == '[auto-create]':
+            if not hasattr(model_instance, 'auto_dir'):
+                raise NotImplementedError("Model %s does not implement auto_dir which is required for auto-creating the directory for field %s" % (model_instance, self))
+
+            dir_name = model_instance.auto_dir(self)
+            if os.path.exists(os.path.join(self.path, dir_name)):
+                raise ValidationError("Won't be able to auto-create the directory as a conflicting one already exists (%s)" % os.path.join(self.path, dir_name))
+
+    def clean(self, value, model_instance):
+        value = super(DirectoryPathField, self).clean(value, model_instance)
+        
+        if value == '[auto-create]':
+            dir_name = model_instance.auto_dir(self)
+            dir_path = os.path.join(self.path, dir_name)
+            os.mkdir(dir_path)
+            value = dir_path
+        
+        return value
 
     def get_internal_type(self):
         return 'FilePathField'
