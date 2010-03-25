@@ -11,7 +11,7 @@ class ParkingPage(models.Model):
     resources_dir = DirectoryPathField(path=settings.PARKING_PAGES_DIR, default="[auto]", help_text="The directory which contains the external resources for the page, such as CSS and Images. Choose [auto-create] and a directory will be automatically created. To add a directory manually, you need to place it under %s" % settings.PARKING_PAGES_DIR)
     last_modified = models.DateTimeField(auto_now=True)
 
-#    @transaction.commit_on_success
+    @transaction.commit_on_success
     def delete(self, using=None):
         super(ParkingPage, self).delete(using)
         
