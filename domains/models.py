@@ -3,10 +3,20 @@ from dnsman.parking.models import ParkingPage
 
 class Domain(models.Model):
     name = models.CharField('Name', unique=True, max_length=253, help_text='The domain name, e.g. "example.com"')
-    parking_page = models.ForeignKey(ParkingPage, null=True, help_text='If no redirections are defined for this domain, this parking page will be used to welcome its visitors')
+    parking_page = models.ForeignKey(ParkingPage, null=True, blank=True, help_text='If no redirections are defined for this domain, this parking page will be used to welcome its visitors')
 
     def __unicode__(self):
         return self.name
+
+    def clean(self):
+        if self.parking_page:
+            from django.core.exceptions import ValidationError
+            from dnsman.redirections.models import Redirection
+            try:
+                if self.redirects_to:
+                    raise ValidationError("This domain has an associated redirect to another domain, it can't have a parking page at the same time")
+            except Redirection.DoesNotExist:
+                pass
 
     def match_request(self, request):
         uri = request.get_host() + request.get_full_path()

@@ -21,6 +21,11 @@ class Redirection(models.Model):
     enabled = models.BooleanField('Enabled?', db_index=True, default=True, help_text='Disable this redirect temporarily by checking off this option')
     last_modified = models.DateTimeField(auto_now=True)
 
+    def clean(self):
+        if self.from_domain.parking_page:
+            from django.core.exceptions import ValidationError
+            raise ValidationError("Can't redirect from domain %s as it has an associated parking page" % self.from_domain)
+
     def match_request(self, request):
         uri = request.get_host() + request.get_full_path()
         
