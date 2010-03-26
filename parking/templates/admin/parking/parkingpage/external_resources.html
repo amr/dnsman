@@ -19,7 +19,7 @@
 Ext.BLANK_IMAGE_URL = '{% admin_media_prefix %}ext/resources/images/default/s.gif';
 Ext.onReady(function () {
   var treepanel = new Ext.ux.FileTreePanel({
-  url:'{% url admin:parkingpages_filetree object.id %}',
+  url:'{{ filetree.backend_url }}',
   height:400,
   autoWidth:true,
   id:'ftp',
@@ -27,6 +27,7 @@ Ext.onReady(function () {
   renderTo:'file-tree-panel',
   rootPath:'{{ filetree.rootPath }}',
   rootText:'{{ filetree.rootText }}',
+  hrefPrefix: '{{ filetree.hrefPrefix }}',
   topMenu:false,
   autoScroll:true,
   enableProgress:false,

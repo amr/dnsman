@@ -97,6 +97,8 @@ INSTALLED_APPS = (
 
 # Parking pages directory, MUST be relative to MEDIA_ROOT
 PARKING_PAGES_DIR = MEDIA_ROOT + '/parking-pages'
+# Parking pages media URL, MUST be relative to MEDIA_URL
+PARKING_PAGES_URL = MEDIA_URL.rstrip('/') + '/parking-pages'
 
 # Enable django-varnish, see VARNISH.txt for details
 VARNISH_INTEGRATION = False

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.util import unquote, flatten_fieldsets, get_deleted_objects
 from django.forms.models import modelform_factory
-from django import template
+from django import template, views
 from django.shortcuts import get_object_or_404, render_to_response
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_unicode
@@ -10,10 +10,12 @@ from django.conf import settings
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.functional import curry
+from django.utils._os import safe_join
+from django.core.urlresolvers import reverse
 
 from dnsman.parking.models import ParkingPage
 from dnsman.parking.forms import ParkingPageAddForm, ParkingPageChangeForm, ParkingPageDeleteForm
-from dnsman.lib.filetree import FileTreeServer
+from dnsman.lib.filetree import FileTreeServer, filetree_virtualroot
 
 import os
 
@@ -40,7 +42,7 @@ class ParkingPageAdmin(admin.ModelAdmin):
         urls = super(ParkingPageAdmin, self).get_urls()
         my_urls = patterns('',
             url(r'^(.+)/external-resources/$', self.admin_site.admin_view(self.extresources_view), name='parkingpages_extresources'),
-            url(r'^(.+)/external-resources/filetree$', self.admin_site.admin_view(self.filetree_view), name='parkingpages_filetree')
+            url(r'^(.+)/external-resources/filetree$', self.admin_site.admin_view(self.filetree_view), name='parkingpages_filetree'),
         )
         return my_urls + urls
 
@@ -63,7 +65,9 @@ class ParkingPageAdmin(admin.ModelAdmin):
             'app_label': opts.app_label,
             'opts': opts,
             'filetree': {
-                'rootPath': os.path.basename(object.resources_dir),
+                'backend_url': reverse('admin:parkingpages_filetree', args=[object_id]),
+                'hrefPrefix': "/%s/" % settings.PARKING_PAGES_URL.strip('/'),
+                'rootPath': filetree_virtualroot(object.resources_dir),
                 'rootText': os.path.basename(object.resources_dir),
             },
         }
@@ -74,9 +78,19 @@ class ParkingPageAdmin(admin.ModelAdmin):
                                   context, context_instance=context_instance)
 
     def filetree_view(self, request, object_id, extra_context=None):
-        filetree = FileTreeServer(settings.PARKING_PAGES_DIR)
+        """FileTreePanel backend"""
+        parkingPage = get_object_or_404(self.model, pk=unquote(object_id))
+
+        if not self.has_change_permission(request, parkingPage):
+            raise PermissionDenied
+
+        filetree = FileTreeServer(parkingPage.resources_dir)
         return filetree.serve(request)
     filetree_view.csrf_exempt = True
+
+    def extresourcesget_view(self, request, object_id, path, extra_context=None):
+        parkingPage = get_object_or_404(self.model, pk=unquote(object_id))
+        #return views.static.serve(request, path, document_root=
 
     # We override this to give different forms for add and change
     def get_form(self, request, obj=None, **kwargs):

@@ -3,11 +3,15 @@ from django.utils import simplejson
 from django.utils._os import safe_join
 import os
 
+def filetree_virtualroot(path):
+    return os.path.basename(path)
+
 class FileTreeServer(object):
     VALID_COMMANDS = ['get', 'rename', 'newdir', 'delete', 'upload']
-
+    
     def __init__(self, root_dir):
         self.root_dir = root_dir
+        self.virtual_root = filetree_virtualroot(root_dir)
 
     def serve(self, request):
         cmd = request.POST['cmd']
@@ -18,7 +22,7 @@ class FileTreeServer(object):
         try:
             result = func(request)
         except:
-            result = {'success': False, 'error': 'An error had occurred, contact the system administrator'}
+            result = self.unknown_error()
 
         mimetype = getattr(func, 'mimetype', 'application/json')
         return HttpResponse(self.to_json(result), mimetype=mimetype)
@@ -75,6 +79,9 @@ class FileTreeServer(object):
         return simplejson.dumps(data)
 
     def expand_path(self, path):
+        # Strip virtual root
+        if path.startswith(self.virtual_root):
+            path = path[len(self.virtual_root):].lstrip('/')
         return safe_join(self.root_dir, path)
 
     def unknown_error(self):
