@@ -15,6 +15,7 @@ class RedirectionForm(forms.ModelForm):
         # Make sure the redirection isn't pointing to itself
         if from_domain == to_domain:
             raise forms.ValidationError('Invalid redirect from a domain to itself')
+        return cleaned_data
 
 class RedirectionBulkAdd(forms.Form):
     to_domain = forms.ModelChoiceField(Domain.objects.all(), help_text='The domain to redirect to')
