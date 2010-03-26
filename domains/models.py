@@ -19,6 +19,44 @@ class Domain(models.Model):
         return self.redirections.count()
     redirections_count.short_description = 'Redirections #'
 
+    def redirection_target(self):
+        return self.redirects_to.to_domain
+    redirection_target.short_description = 'Redirects to'
+
+    def summary(self):
+        from django.core.urlresolvers import reverse
+        from django.utils.http import urlencode
+        from django.utils.safestring import mark_safe
+        from dnsman.redirections.models import Redirection
+        
+        try:
+            return 'Redirects to: <a href="%s">%s</a>' % (
+                reverse('admin:domains_domain_change', args=[self.redirects_to.to_domain.id]),
+                self.redirects_to.to_domain,
+            )
+        except Redirection.DoesNotExist:
+            pass
+        
+        summary = []
+        if self.redirections.count():
+            summary.append('Is redirected to from <a href="%s?%s">%d other domains</a>' % (
+                reverse('admin:redirections_redirection_changelist'),
+                urlencode({'q': self.name}),
+                self.redirections.count(),
+            ))
+        if self.parking_page:
+            summary.append('Displays parking page: <a href="%s">%s</a>' % (
+                reverse('admin:parking_parkingpage_change', args=[self.parking_page.id]),
+                mark_safe(self.parking_page),
+            ))
+        
+        if len(summary):
+            return ', '.join(summary)
+        else:
+            return None
+    summary.short_description = 'Summary'
+    summary.allow_tags = True
+
     def all_redirections(self):
         from dnsman.redirections.models import Redirection
         return Redirection.objects.filter(models.Q(from_domain=self) | models.Q(to_domain=self))

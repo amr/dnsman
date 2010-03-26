@@ -23,7 +23,7 @@ class RedirectionInline(admin.TabularInline):
 
 class DomainAdmin(admin.ModelAdmin):
     #inlines = [RedirectionInline]
-    list_display = ('name', 'redirections_count')
+    list_display = ('name', 'summary')
     search_fields = ['name']
 
     def get_urls(self):
