@@ -1,0 +1,7 @@
+.CodeMirror-wrapping {
+    padding-left: 10em;
+}
+
+iframe.template-codemirror {
+    border: 1px solid #ccc !important;
+}

@@ -1,5 +1,13 @@
 {% extends "admin/change_form.html" %}
-{% load i18n admin_modify %}
+{% load i18n adminmedia admin_modify %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% admin_media_prefix %}codemirror/js/codemirror.js"></script>
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/parking/change_form.css">
+{% endblock %}
 
 {% block content %}<div id="content-main">
 {% block object-tools %}
@@ -49,6 +57,18 @@
 
 {% if adminform and add %}
    <script type="text/javascript">document.getElementById("{{ adminform.first_field.auto_id }}").focus();</script>
+{% endif %}
+
+{% if change %}
+<script type="text/javascript">
+  var editor = CodeMirror.fromTextArea("id_template", {
+    path: "{% admin_media_prefix %}codemirror/js/",
+    parserfile: "parsexml.js",
+    stylesheet: "{% admin_media_prefix %}css/parking/codemirror-xmlcolors.css",
+    content: document.getElementById("id_template").value,
+    iframeClass: "template-codemirror",
+  });
+</script>
 {% endif %}
 
 {# JavaScript for prepopulated fields #}
