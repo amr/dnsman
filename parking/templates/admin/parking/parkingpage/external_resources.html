@@ -11,6 +11,11 @@
 <script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.UploadPanel.js"></script>
 <script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.FileTreeMenu.js"></script>
 <script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.FileTreePanel.js"></script>
+
+{# Our slightly modified versions of FileTreePanel and FileTreeMenu #}
+<script type="text/javascript" src="{% admin_media_prefix %}js/parking/Ext.ux.ParkingFileTreeMenu.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}js/parking/Ext.ux.ParkingFileTreePanel.js"></script>
+
 <script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.form.IconCombo.js"></script>
 <script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.form.ThemeCombo.js"></script>
 <script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.form.LangSelectCombo.js"></script>
@@ -18,7 +23,7 @@
 <script type="text/javascript">
 Ext.BLANK_IMAGE_URL = '{% admin_media_prefix %}ext/resources/images/default/s.gif';
 Ext.onReady(function () {
-  var treepanel = new Ext.ux.FileTreePanel({
+  var treepanel = new Ext.ux.ParkingFileTreePanel({
   url:'{{ filetree.backend_url }}',
   height:400,
   autoWidth:true,
@@ -30,7 +35,7 @@ Ext.onReady(function () {
   hrefPrefix: '{{ filetree.hrefPrefix }}',
   topMenu:false,
   autoScroll:true,
-  enableProgress:false,
+  enableProgress:false
   //		,baseParams:{additional:'haha'}
   //		,singleUpload:true
   });
