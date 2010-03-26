@@ -27,6 +27,17 @@ class ParkingPage(models.Model):
     formatted_last_modified.short_description = 'Last modified'
     formatted_last_modified.admin_order_field = 'last_modified'
 
+    def used_in(self):
+        if self.domain_set.count():
+            from django.core.urlresolvers import reverse
+            from django.utils.http import urlencode
+            return '<a href="%s?%s">%d domains</a>' % (
+                reverse('admin:domains_domain_changelist'),
+                urlencode({'q': self.name}),
+                self.domain_set.count(),
+            )
+    used_in.allow_tags = True
+
     def to_response(self, request):
         """Return an HttpResponse of this parking page for given request"""
         from dnsman.parking.template import parking_page_to_template

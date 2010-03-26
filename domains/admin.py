@@ -24,7 +24,7 @@ class RedirectionInline(admin.TabularInline):
 class DomainAdmin(admin.ModelAdmin):
     #inlines = [RedirectionInline]
     list_display = ('name', 'summary')
-    search_fields = ['name']
+    search_fields = ['name', 'parking_page__name']
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
