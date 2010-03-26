@@ -22,6 +22,11 @@ class ParkingPage(models.Model):
     def __unicode__(self):
         return self.name
 
+    def formatted_last_modified(self):
+        return self.last_modified.strftime('%Y-%m-%d %H:%M:%S')
+    formatted_last_modified.short_description = 'Last modified'
+    formatted_last_modified.admin_order_field = 'last_modified'
+
     def to_response(self, request):
         """Return an HttpResponse of this parking page for given request"""
         from dnsman.parking.template import parking_page_to_template

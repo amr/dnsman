@@ -1,5 +1,3 @@
-from django.utils.translation import ugettext as _
-
 from django.db import models
 from dnsman.domains.models import Domain
 
@@ -61,7 +59,7 @@ class Redirection(models.Model):
 
     def formatted_last_modified(self):
         return self.last_modified.strftime('%Y-%m-%d %H:%M:%S')
-    formatted_last_modified.short_description = _('Last modified')
+    formatted_last_modified.short_description = 'Last modified'
     formatted_last_modified.admin_order_field = 'last_modified'
 
 # Update last-modified of all related redirections when a domain changes.

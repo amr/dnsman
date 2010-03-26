@@ -33,7 +33,7 @@ class ParkingPageAdmin(admin.ModelAdmin):
         ('Advanced', {'fields': ['resources_dir', 'extends'], 'classes': ['collapse', 'advanced']}),
     ]
 
-    list_display = ('name', 'extends', 'last_modified')
+    list_display = ('name', 'extends', 'formatted_last_modified')
     list_filter = ['extends']
     search_fields = ['name']
 
