@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.contrib.admin.util import unquote, flatten_fieldsets
+from django.contrib.admin.util import unquote, flatten_fieldsets, get_deleted_objects
 from django.forms.models import modelform_factory
 from django import template
 from django.shortcuts import get_object_or_404, render_to_response
@@ -12,7 +12,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils.functional import curry
 
 from dnsman.parking.models import ParkingPage
-from dnsman.parking.forms import ParkingPageAddForm, ParkingPageChangeForm
+from dnsman.parking.forms import ParkingPageAddForm, ParkingPageChangeForm, ParkingPageDeleteForm
 from dnsman.lib.filetree import FileTreeServer
 
 class ParkingPageAdmin(admin.ModelAdmin):    
@@ -112,6 +112,60 @@ class ParkingPageAdmin(admin.ModelAdmin):
             return self.add_fieldsets
         else:
             return self.change_fieldsets
+
+    @admin.options.csrf_protect_m
+    def delete_view(self, request, object_id, extra_context=None):
+        "The 'delete' admin view for this model."
+        opts = self.model._meta
+        app_label = opts.app_label
+
+        obj = self.get_object(request, unquote(object_id))
+
+        if not self.has_delete_permission(request, obj):
+            raise PermissionDenied
+
+        if obj is None:
+            raise Http404(_('%(name)s object with primary key %(key)r does not exist.') % {'name': force_unicode(opts.verbose_name), 'key': escape(object_id)})
+
+        # Populate deleted_objects, a data structure of all related objects that
+        # will also be deleted.
+        (deleted_objects, perms_needed) = get_deleted_objects((obj,), opts, request.user, self.admin_site)
+
+        if request.method == 'POST': # The user has already confirmed the deletion.
+            if perms_needed:
+                raise PermissionDenied
+            form = ParkingPageDeleteForm(request.POST)
+            if form.is_valid():
+                obj_display = force_unicode(obj)
+                self.log_deletion(request, obj, obj_display)
+                obj.delete(keep_resources=form.cleaned_data['keep_resources'])
+
+                self.message_user(request, _('The %(name)s "%(obj)s" was deleted successfully.') % {'name': force_unicode(opts.verbose_name), 'obj': force_unicode(obj_display)})
+
+                if not self.has_change_permission(request, None):
+                    return HttpResponseRedirect("../../../../")
+                return HttpResponseRedirect("../../")
+
+        form = ParkingPageDeleteForm()
+
+        context = {
+            "title": _("Are you sure?"),
+            "object_name": force_unicode(opts.verbose_name),
+            "object": obj,
+            "form": form,
+            "deleted_objects": deleted_objects,
+            "perms_lacking": perms_needed,
+            "opts": opts,
+            "root_path": self.admin_site.root_path,
+            "app_label": app_label,
+        }
+        context.update(extra_context or {})
+        context_instance = template.RequestContext(request, current_app=self.admin_site.name)
+        return render_to_response(self.delete_confirmation_template or [
+            "admin/%s/%s/delete_confirmation.html" % (app_label, opts.object_name.lower()),
+            "admin/%s/delete_confirmation.html" % app_label,
+            "admin/delete_confirmation.html"
+        ], context, context_instance=context_instance)
 
     def response_add(self, request, obj, post_url_continue='../%s/'):
         """

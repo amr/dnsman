@@ -12,11 +12,12 @@ class ParkingPage(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
 
     @transaction.commit_on_success
-    def delete(self, using=None):
+    def delete(self, keep_resources=False, using=None):
         super(ParkingPage, self).delete(using)
-        
-        import shutil
-        shutil.rmtree(self.resources_dir)
+
+        if not keep_resources:
+            import shutil
+            shutil.rmtree(self.resources_dir)
 
     def __unicode__(self):
         return self.name
