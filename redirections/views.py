@@ -23,7 +23,7 @@ def redirect(request):
         # TODO: This can be refactored to use a query for better performance
         for domain in Domain.objects.all():
             if domain.match_request(request):
-                response = domain.parking_page.to_response(request)
+                response = domain.parking_page.to_response(request, domain)
                 break
 
     if response is None:

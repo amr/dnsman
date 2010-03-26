@@ -38,14 +38,19 @@ class ParkingPage(models.Model):
             )
     used_in.allow_tags = True
 
-    def to_response(self, request):
+    def to_response(self, request, domain):
         """Return an HttpResponse of this parking page for given request"""
         from dnsman.parking.template import parking_page_to_template
         t = parking_page_to_template(self)
         
         from django.http import HttpResponse
-        from django.template import RequestContext
-        response = HttpResponse(t.render(RequestContext(request)))
+        from django.template import Context
+        c = Context({
+            'absolute_base_path': "%s/" % request.build_absolute_uri(self.resources_dir).strip('/'),
+            'base_path': "/%s/" % self.resources_dir.strip('/'),
+            'domain': unicode(domain.name),
+        })
+        response = HttpResponse(t.render(c))
         
         return response
 
