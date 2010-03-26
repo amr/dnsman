@@ -15,6 +15,8 @@ from dnsman.parking.models import ParkingPage
 from dnsman.parking.forms import ParkingPageAddForm, ParkingPageChangeForm, ParkingPageDeleteForm
 from dnsman.lib.filetree import FileTreeServer
 
+import os
+
 class ParkingPageAdmin(admin.ModelAdmin):    
     # See: self.get_form() and self.get_fieldsets()
     add_form = ParkingPageAddForm
@@ -61,8 +63,8 @@ class ParkingPageAdmin(admin.ModelAdmin):
             'app_label': opts.app_label,
             'opts': opts,
             'filetree': {
-                'rootPath': self.model.resources_dir,
-                'rootText': '',
+                'rootPath': os.path.basename(object.resources_dir),
+                'rootText': os.path.basename(object.resources_dir),
             },
         }
         context.update(extra_context or {})
@@ -76,6 +78,7 @@ class ParkingPageAdmin(admin.ModelAdmin):
         return filetree.serve(request)
     filetree_view.csrf_exempt = True
 
+    # We override this to give different forms for add and change
     def get_form(self, request, obj=None, **kwargs):
         try:
             if obj is None:
@@ -167,10 +170,10 @@ class ParkingPageAdmin(admin.ModelAdmin):
             "admin/delete_confirmation.html"
         ], context, context_instance=context_instance)
 
+    # We are overriding it just to change the continue message
     def response_add(self, request, obj, post_url_continue='../%s/'):
         """
         Determines the HttpResponse for the add_view stage.
-        We are overriding it just to change the continue message.
         """
         opts = obj._meta
         pk_value = obj._get_pk_val()

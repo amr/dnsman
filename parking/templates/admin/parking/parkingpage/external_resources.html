@@ -16,19 +16,20 @@
 <script type="text/javascript" src="{% admin_media_prefix %}filetree/js/Ext.ux.form.LangSelectCombo.js"></script>
 
 <script type="text/javascript">
+Ext.BLANK_IMAGE_URL = '{% admin_media_prefix %}ext/resources/images/default/s.gif';
 Ext.onReady(function () {
   var treepanel = new Ext.ux.FileTreePanel({
   url:'{% url admin:parkingpages_filetree object.id %}',
   height:400,
   autoWidth:true,
-  id:'ftp'
-  ,title:'{% trans "External resources" %}'
-  ,renderTo:'file-tree-panel'
-  ,rootPath:'n2v-standard'
-  ,rootText:'n2v-standard'
-  ,topMenu:false
-  ,autoScroll:true
-  ,enableProgress:false
+  id:'ftp',
+  title:'{% trans "External resources" %}',
+  renderTo:'file-tree-panel',
+  rootPath:'{{ filetree.rootPath }}',
+  rootText:'{{ filetree.rootText }}',
+  topMenu:false,
+  autoScroll:true,
+  enableProgress:false,
   //		,baseParams:{additional:'haha'}
   //		,singleUpload:true
   });
@@ -47,6 +48,9 @@ Ext.onReady(function () {
 <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/Ext.ux.IconCombo.css" />
 <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/empty.css" />
 <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filetree/css/icons.css">
+
+{# This is our own file for final customizations #}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/parking/filetree.css">
 {% endblock %}
 
 {% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} external-resources{% endblock %}
@@ -61,7 +65,13 @@ Ext.onReady(function () {
 </div>
 {% endif %}{% endblock %}
 
-{% block content %}<div id="content-main">
-<div id="file-tree-panel"></div>
+{% block content %}
+<div id="content-main">
+  <p class="help">Right click a directory and click “Add” to upload files. When you upload a .zip file it will be automatically extracted in the directory it was uploaded to.</p>
+
+  <div id="file-tree-panel"></div>
 </div>
+{% endblock %}
+
+{% block sidebar %}
 {% endblock %}
