@@ -1,14 +1,42 @@
-{% extends "admin/base_site.html" %}
+{% extends "docs/base.html" %}
 {% load i18n %}
 {% block breadcrumbs %}<div class="breadcrumbs"><a href="../../../../">Home</a> &rsaquo; <a href="../../../">Documentation</a> &rsaquo; <a href="../../">Parking pages</a> &rsaquo; <a href="../">For designers</a> &rsaquo; Template reference</div>{% endblock %}
 {% block title %}Template reference{% endblock %}
 
-{% block content %}
+{% block coltype %}colMS{% endblock %}
 
+{% block sidebar %}
+<div id="content-related">
+  <h4>Variables</h4>
+  <ul class="variables">
+    <li><a href="#variables-absolute_base_path">absolute_base_path</a></li>
+    <li><a href="#variables-domain">domain</a></li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
 <h1>Template reference</h1>
 <h2 class="subhead">For designers of the parking pages</h2>
 
 <div id="content-main">
-  <p>To be written.</p>
+  <h3>Variables</h3>
+
+  <h4 id="variables-absolute_base_path">absolute_media_path</h4>
+  <p>Fully-qualified path to the media of the parking page. Its value will differ based on how the system is setup. Example values:</p>
+  <ul>
+    <li class="example">/media/parking-pages/my-parking-page</li>
+    <li class="example">http://media.n2vdns.com/parking-pages/my-parking-page</li>
+  </ul>
+  <p>This variable is very important, and must be prepended to each external resources in the template. The easiest way to do this is using the <code>&lt;base&gt;</code> tag, which should be added it to the <code>&lt;head&gt;</code> of your templates. Example:</p>
+  <pre class="example">&lt;head&gt;
+    ...
+    &lt;base href="{% templatetag openvariable %} absolute_base_path {% templatetag closevariable %}" /&gt;
+    ...
+&lt;/head&gt;
+</pre>
+
+  <h4 id="variables-domain">domain</h4>
+  <p>Contains the name of the domain the parking page is being served to. e.g. <code class="example">example.com</code></p>
 </div>
 {% endblock %}

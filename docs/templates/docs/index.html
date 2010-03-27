@@ -1,16 +1,13 @@
-{% extends "admin/base_site.html" %}
-{% load i18n %}
+{% extends "docs/base.html" %}
 {% block breadcrumbs %}<div class="breadcrumbs"><a href="{% url admin:index %}">Home</a> &rsaquo; Documentation</div>{% endblock %}
 {% block title %}Documentation{% endblock %}
 
 {% block content %}
-
 <h1>Documentation</h1>
 
 <div id="content-main">
   <h3><a href="parking-pages/">Parking pages</a></h3>
   <p>Create custom parking pages for domains.</p>
 </div>
-
 {% endblock %}
 
