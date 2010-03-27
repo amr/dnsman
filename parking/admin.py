@@ -43,6 +43,7 @@ class ParkingPageAdmin(admin.ModelAdmin):
         my_urls = patterns('',
             url(r'^(.+)/external-resources/$', self.admin_site.admin_view(self.extresources_view), name='parkingpages_extresources'),
             url(r'^(.+)/external-resources/filetree$', self.admin_site.admin_view(self.filetree_view), name='parkingpages_filetree'),
+            url(r'^(.+)/preview/$', self.admin_site.admin_view(self.preview_view), name='parkingpages_preview'),
         )
         return my_urls + urls
 
@@ -87,6 +88,15 @@ class ParkingPageAdmin(admin.ModelAdmin):
         filetree = FileTreeServer(parkingPage.resources_dir_fullpath)
         return filetree.serve(request)
     filetree_view.csrf_exempt = True
+
+    def preview_view(self, request, object_id, extra_context=None):
+        """Preview parking pages"""
+        parkingPage = get_object_or_404(self.model, pk=unquote(object_id))
+
+        if not self.has_change_permission(request, parkingPage):
+            raise PermissionDenied
+
+        return parkingPage.to_response(request)
 
     # We override this to give different forms for add and change
     def get_form(self, request, obj=None, **kwargs):
