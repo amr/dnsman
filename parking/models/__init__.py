@@ -57,7 +57,7 @@ class ParkingPage(models.Model):
             absolute_base_path = "%s://%s/%s/%s/" % (
                 request.is_secure() and 'https' or 'http',
                 request.get_host().rstrip('/'),
-                PARKING_PAGES_URL,
+                PARKING_PAGES_URL.strip('/'),
                 self.resources_dir.rstrip('/'),
             )
 
