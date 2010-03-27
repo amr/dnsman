@@ -36,10 +36,11 @@ class ParkingPage(models.Model):
         if self.domain_set.count():
             from django.core.urlresolvers import reverse
             from django.utils.http import urlencode
-            return '<a href="%s?%s">%d domains</a>' % (
+            return '<a href="%s?%s">%d %s</a>' % (
                 reverse('admin:domains_domain_changelist'),
                 urlencode({'q': self.name}),
                 self.domain_set.count(),
+                self.domain_set.count() == 1 and 'domain' or 'domains',
             )
     used_in.allow_tags = True
 
