@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.db import models, transaction
+from django.db import models
 from django.template.defaultfilters import slugify
 
 from dnsman.parking.models.fields import DirectoryPathField
@@ -12,7 +12,6 @@ class ParkingPage(models.Model):
     resources_dir = DirectoryPathField(path=PARKING_PAGES_ROOT, default="[auto-create]", help_text="The directory which contains the external resources for the page, such as CSS and Images. Choose [auto-create] and a directory will be automatically created. To add a directory manually, you need to place it under %s" % PARKING_PAGES_ROOT)
     last_modified = models.DateTimeField(auto_now=True)
 
-    @transaction.commit_on_success
     def delete(self, keep_resources=False, using=None):
         super(ParkingPage, self).delete(using)
 
