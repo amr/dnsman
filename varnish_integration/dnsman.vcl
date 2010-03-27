@@ -19,7 +19,7 @@ backend default {
 }
 
 sub vcl_recv {
-    if (req.request == "GET" && !(req.url ~ "^/dnsman-admin")) {
+    if (req.request == "GET" && !(req.url ~ "^/dnsman-admin") && !(req.url ~ "^/dnsman-media")) {
         lookup;
     }    
 }
@@ -27,7 +27,7 @@ sub vcl_recv {
 sub vcl_fetch {
     if (obj.http.X-Varnish-Can-Cache) {
         unset obj.http.X-Varnish-Can-Cache;
-        if (req.request == "GET" && obj.status < 400 && !(req.url ~ "^/dnsman-admin")) {
+        if (req.request == "GET" && obj.status < 400 && !(req.url ~ "^/dnsman-admin") && !(req.url ~ "^/dnsman-media")) {
       	    set obj.ttl = 4h;
        	    deliver;
     	}
