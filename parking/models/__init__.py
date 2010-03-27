@@ -62,7 +62,9 @@ class ParkingPage(models.Model):
                 request.get_host(),
                 settings.PARKING_PAGES_URL.strip('/'),
                 self.resources_dir.strip('/')),
-            'base_path': "/%s/" % self.resources_dir.strip('/'),
+            'base_path': "/%s/%s/" % (
+                settings.PARKING_PAGES_URL.strip('/'),
+                self.resources_dir.strip('/')),
             'domain': unicode(domain.name),
         })
         response = HttpResponse(t.render(c))
