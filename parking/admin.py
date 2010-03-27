@@ -16,7 +16,8 @@ from django.core.urlresolvers import reverse
 from dnsman.parking.models import ParkingPage
 from dnsman.parking.forms import ParkingPageAddForm, ParkingPageChangeForm, ParkingPageDeleteForm
 from dnsman.parking import PARKING_PAGES_URL
-from dnsman.lib.filetree import FileTreeServer, filetree_virtualroot
+from dnsman.lib.filetree import filetree_virtualroot
+from dnsman.parking.filetree import ExternalResourcesServer
 
 import os
 
@@ -86,7 +87,7 @@ class ParkingPageAdmin(admin.ModelAdmin):
         if not self.has_change_permission(request, parkingPage):
             raise PermissionDenied
 
-        filetree = FileTreeServer(parkingPage.resources_dir_fullpath)
+        filetree = ExternalResourcesServer(parkingPage.resources_dir_fullpath)
         return filetree.serve(request)
     filetree_view.csrf_exempt = True
 
