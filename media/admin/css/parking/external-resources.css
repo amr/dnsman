@@ -1,5 +1,14 @@
+/* ext-all.css overrides this, so here we restore it again
+ * see: base.css
+ */
+h1 {
+    font-size: 18px;
+    margin: 0 0 0.2em;
+    padding: 0 6px 0 0;
+}
+
 .external-resources .help {
-    margin: 1em 0 .2em 0;
+    margin: .5em 0 .2em 0;
 }
 
 .x-panel-header {
