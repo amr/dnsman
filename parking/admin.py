@@ -15,6 +15,7 @@ from django.core.urlresolvers import reverse
 
 from dnsman.parking.models import ParkingPage
 from dnsman.parking.forms import ParkingPageAddForm, ParkingPageChangeForm, ParkingPageDeleteForm
+from dnsman.parking import PARKING_PAGES_URL
 from dnsman.lib.filetree import FileTreeServer, filetree_virtualroot
 
 import os
@@ -67,7 +68,7 @@ class ParkingPageAdmin(admin.ModelAdmin):
             'opts': opts,
             'filetree': {
                 'backend_url': reverse('admin:parkingpages_filetree', args=[object_id]),
-                'hrefPrefix': "/%s/" % settings.PARKING_PAGES_URL.strip('/'),
+                'hrefPrefix': PARKING_PAGES_URL,
                 'rootPath': filetree_virtualroot(object.resources_dir),
                 'rootText': os.path.basename(object.resources_dir),
             },

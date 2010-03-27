@@ -93,8 +93,8 @@ INSTALLED_APPS = (
     'dnsman.docs',
 )
 
-# Parking pages directory, MUST be relative to MEDIA_ROOT
-PARKING_PAGES_DIR = MEDIA_ROOT + '/parking-pages'
+# Parking pages directory, relative to MEDIA_ROOT
+PARKING_PAGES_DIR = 'parking-pages'
 
 # Enable django-varnish, see VARNISH.txt for details
 VARNISH_INTEGRATION = False
@@ -108,9 +108,6 @@ except ImportError:
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = MEDIA_URL.rstrip('/') + '/admin/'
-
-# Parking pages media URL, MUST be relative to MEDIA_URL
-PARKING_PAGES_URL = MEDIA_URL.rstrip('/') + '/parking-pages'
 
 if VARNISH_INTEGRATION:
     INSTALLED_APPS += ('varnishapp', 'django.contrib.humanize')
