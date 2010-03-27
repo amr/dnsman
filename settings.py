@@ -59,6 +59,9 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+
+    # DNSMan
+    'dnsman.parking.template.Loader',
 )
 
 MIDDLEWARE_CLASSES = (

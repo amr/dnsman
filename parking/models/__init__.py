@@ -44,7 +44,7 @@ class ParkingPage(models.Model):
     used_in.allow_tags = True
 
     def render(self, request, domain, extra_context=None):
-        """Render for given request and domain"""
+        """Render based on given request and domain"""
         from dnsman.parking.template import parking_page_to_template
         t = parking_page_to_template(self)
 
