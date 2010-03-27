@@ -69,7 +69,7 @@ class DirectoryPathField(models.Field):
             dir_name = model_instance.auto_dir(self)
             dir_path = os.path.join(self.path, dir_name)
             os.mkdir(dir_path)
-            value = dir_path
+            value = dir_name
         
         return value
 
