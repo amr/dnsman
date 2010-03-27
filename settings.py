@@ -44,12 +44,7 @@ MEDIA_ROOT = 'media'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media/'
-
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/admin-media/'
+MEDIA_URL = '/dnsman-media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '470u^v!*a1!62^kpzlzsivs4eb=w(2t$+716k%-5cio161@710'
@@ -100,8 +95,6 @@ INSTALLED_APPS = (
 
 # Parking pages directory, MUST be relative to MEDIA_ROOT
 PARKING_PAGES_DIR = MEDIA_ROOT + '/parking-pages'
-# Parking pages media URL, MUST be relative to MEDIA_URL
-PARKING_PAGES_URL = MEDIA_URL.rstrip('/') + '/parking-pages'
 
 # Enable django-varnish, see VARNISH.txt for details
 VARNISH_INTEGRATION = False
@@ -110,6 +103,14 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
+# trailing slash.
+# Examples: "http://foo.com/media/", "/media/".
+ADMIN_MEDIA_PREFIX = MEDIA_URL.rstrip('/') + '/admin/'
+
+# Parking pages media URL, MUST be relative to MEDIA_URL
+PARKING_PAGES_URL = MEDIA_URL.rstrip('/') + '/parking-pages'
 
 if VARNISH_INTEGRATION:
     INSTALLED_APPS += ('varnishapp', 'django.contrib.humanize')

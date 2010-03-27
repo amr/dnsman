@@ -12,6 +12,11 @@ MANAGERS = ADMINS
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = ')OB=R*_NH|}V-+HQ.O;_TA>#(EP+/V,;FW+M`=X#=?=;S&/G;JW(=}\;UJXCSS-'
 
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash if there is a path component (optional in other cases).
+# Examples: "http://media.lawrence.com", "http://example.com/media/"
+#MEDIA_URL = '/dnsman-media/'
+
 # Parking pages directory, MUST be relative to MEDIA_ROOT
 #
 # It will be used for storing the HTML and media of the parking pages. It's
