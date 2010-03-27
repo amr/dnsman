@@ -95,8 +95,13 @@ class ParkingPageAdmin(admin.ModelAdmin):
 
         if not self.has_change_permission(request, parkingPage):
             raise PermissionDenied
+        
+        class ExampleDomain(object):
+            name = "example.com"
+            parking_page = parkingPage
+        domain = ExampleDomain()
 
-        return parkingPage.to_response(request)
+        return parkingPage.to_response(request, domain)
 
     # We override this to give different forms for add and change
     def get_form(self, request, obj=None, **kwargs):

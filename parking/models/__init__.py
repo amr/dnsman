@@ -43,18 +43,11 @@ class ParkingPage(models.Model):
             )
     used_in.allow_tags = True
 
-    def to_response(self, request, domain=None):
-        """Return an HttpResponse of this parking page for given request"""
+    def render(self, request, domain, extra_context=None):
+        """Render for given request and domain"""
         from dnsman.parking.template import parking_page_to_template
         t = parking_page_to_template(self)
 
-        if domain is None:
-            class ExampleDomain(object):
-                name = "example.com"
-                parking_page = self
-            domain = ExampleDomain()
-        
-        from django.http import HttpResponse
         from django.template import Context
         c = Context({
             'absolute_base_path': "%s://%s/%s/%s/" % (
@@ -67,9 +60,13 @@ class ParkingPage(models.Model):
                 self.resources_dir.strip('/')),
             'domain': unicode(domain.name),
         })
-        response = HttpResponse(t.render(c))
-        
-        return response
+        c.update(extra_context or {})
+        return t.render(c)
+
+    def to_response(self, request, domain):
+        """Return an HttpResponse of this parking page for given request"""
+        from django.http import HttpResponse
+        return HttpResponse(self.render(request, domain))
 
     def auto_dir(self, field):
         return slugify(self.name)
