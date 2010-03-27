@@ -29,7 +29,7 @@ class DirectoryPathField(models.Field):
                 for d in os.listdir(self.path):
                     full_dir = os.path.join(self.path, d)
                     if os.path.isdir(full_dir) and (self.match is None or self.match_re.search(d)):
-                        self.choices.append((full_dir, d))
+                        self.choices.append((d, d))
             except OSError:
                 pass
 

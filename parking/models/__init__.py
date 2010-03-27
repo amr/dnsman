@@ -16,11 +16,16 @@ class ParkingPage(models.Model):
         super(ParkingPage, self).delete(using)
 
         if not keep_resources:
-            import shutil
-            shutil.rmtree(self.resources_dir)
+            import shutil, os
+            shutil.rmtree(self.resources_dir_fullpath)
 
     def __unicode__(self):
         return self.name
+
+    def resources_dir_fullpath(self):
+        import os
+        return os.path.join(settings.PARKING_PAGES_DIR, self.resources_dir)
+    resources_dir_fullpath = property(resources_dir_fullpath)
 
     def formatted_last_modified(self):
         return self.last_modified.strftime('%Y-%m-%d %H:%M:%S')

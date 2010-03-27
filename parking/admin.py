@@ -84,13 +84,9 @@ class ParkingPageAdmin(admin.ModelAdmin):
         if not self.has_change_permission(request, parkingPage):
             raise PermissionDenied
 
-        filetree = FileTreeServer(parkingPage.resources_dir)
+        filetree = FileTreeServer(parkingPage.resources_dir_fullpath)
         return filetree.serve(request)
     filetree_view.csrf_exempt = True
-
-    def extresourcesget_view(self, request, object_id, path, extra_context=None):
-        parkingPage = get_object_or_404(self.model, pk=unquote(object_id))
-        #return views.static.serve(request, path, document_root=
 
     # We override this to give different forms for add and change
     def get_form(self, request, obj=None, **kwargs):
