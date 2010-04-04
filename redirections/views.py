@@ -14,7 +14,7 @@ def redirect(request):
 
     response = None
     # TODO: This can be refactored to use a query for better performance
-    for redirection in Redirection.objects.order_by('-weight'):
+    for redirection in Redirection.objects.filter(enabled=True).order_by('-weight'):
         if redirection.match_request(request):
             response = redirection.to_response(request)
             break
