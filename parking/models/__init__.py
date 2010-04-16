@@ -22,6 +22,9 @@ class ParkingPage(models.Model):
     def __unicode__(self):
         return self.name
 
+    def match_request(self, request):
+        return request.path == '/'
+    
     def resources_dir_fullpath(self):
         import os.path
         return os.path.join(PARKING_PAGES_ROOT, self.resources_dir)

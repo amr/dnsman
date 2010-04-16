@@ -27,11 +27,7 @@ class Redirection(models.Model):
             raise ValidationError("Can't redirect from domain %s as it has an associated parking page" % self.from_domain)
 
     def match_request(self, request):
-        uri = request.get_host() + request.get_full_path()
-        
-        import re
-        pattern = "^(www\.)?%s" % re.escape(str(self.from_domain))
-        return re.compile(pattern, re.IGNORECASE).match(uri)
+        return self.from_domain.match_request(request)
 
     def to_response(self, request):
         """Return an HttpResponse of this redirection for given request"""

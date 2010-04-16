@@ -65,6 +65,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
+    # DNSMan
+    'dnsman.redirections.middleware.RedirectionsMiddleware',
+    'dnsman.domains.middleware.ParkingPagesMiddleware',
 )
 
 ROOT_URLCONF = 'dnsman.urls'
