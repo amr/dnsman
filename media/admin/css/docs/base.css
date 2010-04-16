@@ -4,3 +4,21 @@ body.docs .colMS #content-main {
     width: auto;
 }
 
+body.docs .note {
+    background-color: #E1E4F5;
+    background-color: #EDF0FF;
+    border-top: 1px solid #B4C2F4;
+    border-bottom: 1px solid #B4C2F4;
+    padding: 1em;
+}
+body.docs .note p {
+    margin: 0;
+}
+body.docs .note .type {
+    display: block;
+    margin-right: 1em;
+    float: left;
+    color: #708BD1;
+    color: #999;
+    font-weight: bold;
+}
