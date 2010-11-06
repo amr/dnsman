@@ -94,6 +94,7 @@ INSTALLED_APPS = (
     'dnsman.domains',
     'dnsman.redirections',
     'dnsman.parking',
+    'dnsman.zones',
     'dnsman.docs',
 )
 

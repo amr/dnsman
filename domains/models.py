@@ -38,16 +38,25 @@ class Domain(models.Model):
         from django.utils.http import urlencode
         from django.utils.safestring import mark_safe
         from dnsman.redirections.models import Redirection
+        from dnsman.zones.models import Zone
         
+        summary = []
         try:
-            return 'Redirects to: <a href="%s">%s</a>' % (
+            summary.append('Is a <a href="%s">delegated zone</a>' % (
+                reverse('admin:zones_zone_change', args=[self.zone.id])
+            ))
+        except Zone.DoesNotExist:
+            pass
+
+        try:
+            summary.append('Redirects to: <a href="%s">%s</a>' % (
                 reverse('admin:domains_domain_change', args=[self.redirects_to.to_domain.id]),
                 self.redirects_to.to_domain,
-            )
+            ))
+            return ', '.join(summary)
         except Redirection.DoesNotExist:
             pass
         
-        summary = []
         if self.redirections.count():
             summary.append('Is redirected to from <a href="%s?%s">%d other domains</a>' % (
                 reverse('admin:redirections_redirection_changelist'),
